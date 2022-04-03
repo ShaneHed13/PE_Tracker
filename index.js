@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 5000;
 const { Pool } = require('pg');
 
 const pool = new Pool({
-    connectionString: process.env.DATABSE_URL,
+    connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false
     }
@@ -19,13 +19,14 @@ express()
     .get('/', async(req, res) => {
     
         try {
-            const client - await pool.connect();
+            const client = await pool.connect();
     
             client.release();
+            res.send("Works");
         }
         catch (err) {
-            sonsole.error(err);
-            res.sent("Error " + err);
+            console.error(err);
+            res.send("Error " + err);
             
         }
 })
