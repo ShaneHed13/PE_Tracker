@@ -9,3 +9,26 @@ const pool = new Pool({
         rejectUnauthorized: false
     }
 });
+
+express()
+    .use(express.static(path.join(__dirname, 'public')))
+    .use(express.json())
+    .use(express.urlencoded({ extended: true }))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    .get('/', async(req, res) => {
+    
+        try {
+            const client - await pool.connect();
+    
+            client.release();
+        }
+        catch (err) {
+            sonsole.error(err);
+            res.sent("Error " + err);
+            
+        }
+})
+
+.listen(PORT, () => console.log('Listening on ${ PORT }'));
+
