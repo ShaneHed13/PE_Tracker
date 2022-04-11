@@ -8,37 +8,63 @@
         
         <body>
             <h1>PE Tracker</h1>
+            
+            <table>
+                <tr>
+                    <td><label>Rater ID:</label>&nbsp;<input type='text' id='rater_id'></td>
+                    <td><label>Student ID:</label>&nbsp;<input type='text' id='student_id'></td>
+                
+                
+                </tr>
+            </table>
+            
+            <table>
+            <tr><th><h2>Task</h2></th>
+                <th>Time Spent (in minutes)</th></tr>
             <% tasks.forEach(function(r) {%>
-                <button id='<%= r.id %>'
-                    onClick='javascript:logTask(<%= r.id %>);'><%= r.name %></button>
+                <tr><td><button onclick='javascript:logTask(<%= r.id %>)'><%= r.name %></button></td><td><input value="00:00:00" type='text' id='<%= r.id %>'></td></tr>
             <% }); %>
+                
+            </table>
             
             <script>
-            let currentTaskID = null;
+                let currentTaskID = null;
                 
-            const logTask = async function(id) {
+
+
+
                 
-            const response = await fetch('/log', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    users_id: -1,
-                    sutdents_id: -1,
-                    tasks_Id: id,
-                    duration: "'+00:00:01'"
-                })
+
                 
-            });
+                const logTask = async function(id) {
+                    
+
+                        
+                        
+
+                    const response = await fetch('/log', {
+                        method: 'POST',
+                        headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                        },
+                        
+                        body: JSON.stringify({
+                        users_id: document.getElementById('rater_id').value,
+                        sutdents_id: document.getElementById('student_id').value,
+                        tasks_Id: id,
+                        duration: "'" + document.getElementById(id).value + "'"
+                        })
                 
-                const result = await response.json();
-                console.log(result);
+                    });
+                    
                 
-                currentTaskId = id;
-                
-            };
+                    const result = await response.json();
+                    console.log(result);
+
+                    currentTaskId = id;
+                      
+                };
             </script>
             
         </body>
